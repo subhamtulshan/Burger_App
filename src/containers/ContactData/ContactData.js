@@ -7,7 +7,7 @@ import Input from "../../components/UI/Input/Input";
 import { connect } from "react-redux";
 import * as actions from "../../Store/Action/Order";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import {checkValidity} from '../../Shared/Utility'
+import { checkValidity } from "../../Shared/Utility";
 
 class ContactData extends Component {
   state = {
@@ -26,7 +26,7 @@ class ContactData extends Component {
         },
         isValid: false,
         touched: false,
-        message:'length should be between 4 to 10 and only character'
+        message: "length should be between 4 to 10 and only character"
       },
       Email: {
         elementType: "input",
@@ -39,12 +39,11 @@ class ContactData extends Component {
           required: true,
           minLength: 4,
           maxLength: 30,
-          isEmail:true,
-          
+          isEmail: true
         },
         isValid: false,
         touched: false,
-        message:''
+        message: ""
       },
       street: {
         elementType: "input",
@@ -60,7 +59,7 @@ class ContactData extends Component {
         },
         isValid: false,
         touched: false,
-        message:'length should be between 4 to 10 and only character'
+        message: "length should be between 4 to 10 and only character"
       },
       postalcode: {
         elementType: "input",
@@ -73,12 +72,11 @@ class ContactData extends Component {
           required: true,
           minLength: 4,
           maxLength: 10,
-          isNumeric:true
+          isNumeric: true
         },
         isValid: false,
         touched: false,
-        message:'length should be between 4 to 10 and only numbers'
-
+        message: "length should be between 4 to 10 and only numbers"
       },
       Delivery: {
         elementType: "select",
@@ -95,8 +93,6 @@ class ContactData extends Component {
     },
     formValid: false
   };
-
-  
 
   inputChangeHandler = (event, FormDataIdentifier) => {
     const updatedFormData = { ...this.state.OrderForm };
@@ -131,9 +127,9 @@ class ContactData extends Component {
       ingredients: this.props.ings,
       price: this.props.price,
       customerdata: customerdata,
-      UserId:this.props.userId
+      UserId: this.props.userId
     };
-    this.props.onPurchaseBurger(order,this.props.token);
+    this.props.onPurchaseBurger(order, this.props.token);
   };
   render() {
     let formdata = [];
@@ -185,14 +181,15 @@ const mapStatetoProps = state => {
     ings: state.BurgerbuilderReducer.ingredients,
     price: state.BurgerbuilderReducer.price,
     loading: state.orderReducer.loading,
-    token:state.AuthReducer.idtoken,
-    userId:state.AuthReducer.userId
+    token: state.AuthReducer.idtoken,
+    userId: state.AuthReducer.userId
   };
 };
 
 const mapDispatchtoProps = dispatch => {
   return {
-    onPurchaseBurger: (orderdata,token) => dispatch(actions.purchaseBurger(orderdata,token)),
+    onPurchaseBurger: (orderdata, token) =>
+      dispatch(actions.purchaseBurger(orderdata, token)),
     onPurchaseStart: () => dispatch(actions.purchaseBurgerStart())
   };
 };

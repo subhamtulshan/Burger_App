@@ -1,6 +1,7 @@
 import React, { Component, Suspense, useEffect } from "react";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+import SignUp from "./containers/Auth/SignUp/SignUp"
 // import Checkout from "./containers/Checkout/Checkout";
 import { Route, Switch, Redirect } from "react-router-dom";
 // import Orders from "./containers/Orders/Orders";
@@ -30,6 +31,7 @@ const App = props => {
           </Suspense>
         )}
       ></Route>
+      <Route path="/signup" component={SignUp}></Route>
       <Redirect to="/"></Redirect>
     </Switch>
   );
@@ -62,6 +64,7 @@ const App = props => {
             </Suspense>
           )}
         ></Route>
+        <Route path="/signup" component={SignUp}></Route>
         <Route path="/logout" component={Logout}></Route>
       </Switch>
     );

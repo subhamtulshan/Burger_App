@@ -12,6 +12,8 @@ export function* authUserSaga(action) {
   const authdata = {
     email: action.email,
     password: action.password,
+    name:action.name,
+    Dob:action.Dob,
     returnSecureToken: true
   };
 
@@ -19,6 +21,7 @@ export function* authUserSaga(action) {
     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCKsUAG8QcCVDXSwnWL7mDlieazcUU9UJ4";
 
   if (action.isSignup) {
+    
     URL =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCKsUAG8QcCVDXSwnWL7mDlieazcUU9UJ4";
   }
@@ -54,9 +57,9 @@ export function* checkEmailsaga(action) {
   const URL =
     "https://emailverification.whoisxmlapi.com/api/v1?apiKey=at_3XFBiTWZRKylHrVQODeCa0CJrzaS6&emailAddress=" +
     action.email;
-    yield put(actions.authStart());
+  yield put(actions.authStart());
 
-    try {
+  try {
     const response = yield axios.get(URL);
     const result =
       response.data.formatCheck === "true" &&
@@ -68,7 +71,15 @@ export function* checkEmailsaga(action) {
 
     console.log(result, response);
     if (result) {
-      yield put(actions.auth(action.email, action.password, action.isSignup));
+      yield put(
+        actions.auth(
+          action.email,
+          action.password,
+          action.isSignup,
+          action.name,
+          action.Dob,
+        )
+      );
     } else {
       yield put(actions.authFail("Not a Valid email please try again"));
     }

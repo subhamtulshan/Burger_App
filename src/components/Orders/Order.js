@@ -21,7 +21,7 @@ import classes from "./Order.css";
   return (
     <div className={classes.order}>
       <h1>Order Details</h1>
-      <p>Order ID:{}</p>
+      <p>Order ID:{props.id}</p>
       <p>Price:{props.price}</p>
       <p>Ingredients:{ingredientOutput}</p>
     </div>

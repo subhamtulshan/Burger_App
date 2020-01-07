@@ -1,17 +1,31 @@
 import React, { Component } from "react";
-import classes from "./Auth.css";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
-import * as actions from "../../Store/Action/Index";
+import classes from "./SignUp.css";
+import { checkValidity } from "../../../Shared/Utility";
+import Input from "../../../components/UI/Input/Input";
+import Button from "../../../components/UI/Button/Button";
 import { connect } from "react-redux";
-import Spinner from "../../components/UI/Spinner/Spinner";
-// import {Redirect} from 'react-router-dom';
-import { checkValidity } from "../../Shared/Utility";
-import { Redirect, withRouter } from "react-router-dom";
+import * as actions from "../../../Store/Action/Index";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import { Redirect } from "react-router-dom";
 
-class Auth extends Component {
+class SignUp extends Component {
   state = {
     AuthForm: {
+      Name: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Name"
+        },
+        value: "",
+        validation: {
+          required: true,
+          minLength: 4,
+          maxLength: 30
+        },
+        isValid: false,
+        touched: false
+      },
       Email: {
         elementType: "input",
         elementConfig: {
@@ -38,14 +52,28 @@ class Auth extends Component {
         validation: {
           required: true,
           minLength: 6,
-          maxLength: 10
+          maxLength: 30
+        },
+        isValid: false,
+        touched: false
+      },
+      DateOfBirth: {
+        elementType: "input",
+        elementConfig: {
+          type: "date",
+          placeholder: "Date Of Birth"
+        },
+        value: "",
+        validation: {
+          required: true,
+          isDob: true
         },
         isValid: false,
         touched: false
       }
     },
-
-    isSignUp: true
+    isSignup: false,
+    formValid: false
   };
 
   componentDidMount() {
@@ -63,29 +91,23 @@ class Auth extends Component {
     );
     updatedElement.touched = true;
     updatedform[name] = updatedElement;
-    // console.log(updatedform);
-    // console.log(updatedElement);
-    this.setState({ AuthForm: updatedform });
+
+    let formvalid = true;
+    for (let key in updatedform) {
+      formvalid = updatedform[key].isValid && formvalid;
+    }
+    this.setState({ AuthForm: updatedform, formValid: formvalid });
   };
 
   onSubmitHandler = event => {
     event.preventDefault();
-    this.props.onAuth(
+    this.props.OnAuth(
       this.state.AuthForm.Email.value,
       this.state.AuthForm.Password.value,
-      this.state.isSignUp
+      this.state.AuthForm.Name.value,
+      this.state.AuthForm.DateOfBirth.value,
+      this.state.isSignup
     );
-  };
-
-  // swithAuthModeHandler = () => {
-  //   this.setState(prevState => {
-  //     return { isSignUp: !prevState.isSignUp };
-  //   });
-  // };
-
-  SignUpHandler = () => {
-    // console.log(this.props);
-    this.props.history.push("/signup");
   };
 
   render() {
@@ -109,7 +131,6 @@ class Auth extends Component {
         touched={data.config.touched}
       ></Input>
     ));
-
     if (this.props.loading) {
       form = <Spinner></Spinner>;
     }
@@ -120,21 +141,16 @@ class Auth extends Component {
     if (this.props.isAuthenticated) {
       authRedirect = <Redirect to={this.props.AuthRedirect}></Redirect>;
     }
-
     return (
       <div className={classes.authdata}>
         {error}
         {authRedirect}
         <form onSubmit={this.onSubmitHandler}>
           {form}
-          <Button btnType="Success">SUBMIT</Button>
-        </form>
-        <p>
-          Not a Member?
-          <a className={classes.signup} onClick={this.SignUpHandler}>
+          <Button disabled={!this.state.formValid} btnType="Success">
             Sign Up
-          </a>
-        </p>
+          </Button>
+        </form>
       </div>
     );
   }
@@ -149,11 +165,11 @@ const mapStatetoProps = state => {
     isAuthenticated: state.AuthReducer.idtoken !== null
   };
 };
-const mapDispatchtoProps = dispatch => {
+
+const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignUp) => {
-      dispatch(actions.auth(email, password, isSignUp));
-      // dispatch(actions.checkEmail(email, password, isSignUp));
+    OnAuth: (email, password, name, Dob, isSignup) => {
+      dispatch(actions.checkEmail(email, password, name, Dob, isSignup));
     },
     onAuthRedirect: path => {
       dispatch(actions.setAuthRedirect(path));
@@ -161,4 +177,4 @@ const mapDispatchtoProps = dispatch => {
   };
 };
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(withRouter(Auth));
+export default connect(mapStatetoProps, mapDispatchToProps)(SignUp);

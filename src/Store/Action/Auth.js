@@ -1,7 +1,7 @@
 import * as actionType from "./Actiontype";
 import axios from "axios";
 
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password, isSignup,name,Dob) => {
   // const authdata = {
   //   email: email,
   //   password: password,
@@ -34,15 +34,19 @@ export const auth = (email, password, isSignup) => {
     type: actionType.AUTH_USER,
     email: email,
     password: password,
-    isSignup: isSignup
+    isSignup: isSignup,
+    name:name,
+    Dob:Dob
   };
 };
 
-export const checkEmail=(email,password,isSignup)=>{
+export const checkEmail=(email,password, name, Dob,isSignup)=>{
   return{
     type:actionType.CHECK_EMAIL,
     email:email,
     password:password,
+    name:name,
+    Dob:Dob,
     isSignup:isSignup
   }
 // return dispatch=>{
