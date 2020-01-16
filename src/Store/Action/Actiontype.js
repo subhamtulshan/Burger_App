@@ -26,3 +26,9 @@ export const AUTH_USER="AUTH_USER";
 export const CHECK_EMAIL="CHECK_EMAIL";
 
 export const SET_AUTH_REDIRECT = "SET_AUTH_REDIRECT";
+
+
+
+export const SHOW_MAP="SHOW_MAP";
+export const SAVE_MAP="SAVE_MAP";
+export const CLOSE_MAP="CLOSE_MAP";

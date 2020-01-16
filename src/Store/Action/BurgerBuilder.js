@@ -1,5 +1,5 @@
 import * as actiontypes from "./Actiontype";
-import axios from "../../axios-orders";
+// import axios from "../../axios-orders";
 
 
 export const addingredient = data => {

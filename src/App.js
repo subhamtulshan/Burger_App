@@ -1,4 +1,4 @@
-import React, { Component, Suspense, useEffect } from "react";
+import React, {Suspense, useEffect } from "react";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import SignUp from "./containers/Auth/SignUp/SignUp"

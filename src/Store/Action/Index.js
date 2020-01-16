@@ -29,3 +29,5 @@ export {
   autoCheckStatus,
   checkEmail
 } from "./Auth";
+
+export { mapClose, mapSave, mapShow } from "./ContactData";

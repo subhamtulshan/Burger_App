@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import CheckoutSummary from "../../components/Orders/CheckoutSummary/CheckoutSummary";
 import { Route, Redirect,withRouter } from "react-router-dom";
 import ContactData from "../ContactData/ContactData";

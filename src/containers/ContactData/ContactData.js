@@ -5,9 +5,12 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Input from "../../components/UI/Input/Input";
 import { connect } from "react-redux";
-import * as actions from "../../Store/Action/Order";
+import * as actions from "../../Store/Action/Index";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { checkValidity } from "../../Shared/Utility";
+import Modal from "../../components/UI/Modal/Modal";
+import Aux from "../../hoc/Auxillary/Auxillary";
+import GoogleMap from "../../components/Google_Map/Map";
 
 class ContactData extends Component {
   state = {
@@ -65,7 +68,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "Posatal code"
+          placeholder: "Postal code"
         },
         value: "",
         validation: {
@@ -94,6 +97,7 @@ class ContactData extends Component {
     formValid: false
   };
 
+ 
   inputChangeHandler = (event, FormDataIdentifier) => {
     const updatedFormData = { ...this.state.OrderForm };
     const IndividualData = { ...updatedFormData[FormDataIdentifier] };
@@ -115,6 +119,17 @@ class ContactData extends Component {
     this.setState({ OrderForm: updatedFormData, formValid: formvalid });
   };
 
+  closeMapHandler = () => {
+    this.setState({
+      MapVisivle: false
+    });
+  };
+
+  showMapHandler = () => {
+    this.setState({
+      MapVisivle: true
+    });
+  };
   placeOrderHandler = () => {
     this.props.onPurchaseStart();
     let customerdata = {};
@@ -122,15 +137,16 @@ class ContactData extends Component {
     for (let formidentifier in this.state.OrderForm) {
       customerdata[formidentifier] = this.state.OrderForm[formidentifier].value;
     }
-
     const order = {
       ingredients: this.props.ings,
       price: this.props.price,
       customerdata: customerdata,
-      UserId: this.props.userId
+      UserId: this.props.userId,
+      address:this.props.selectedplace
     };
     this.props.onPurchaseBurger(order, this.props.token);
   };
+
   render() {
     let formdata = [];
 
@@ -155,7 +171,6 @@ class ContactData extends Component {
             message={data.config.message}
           ></Input>
         ))}
-
         <Button
           disabled={!this.state.formValid}
           btnType="Success"
@@ -168,10 +183,18 @@ class ContactData extends Component {
 
     if (this.props.loading) form = <Spinner></Spinner>;
     return (
-      <div className={classes.contactdata}>
-        <h1>Enter Your contact Info</h1>
-        {form}
-      </div>
+      <Aux>
+        <div className={classes.contactdata}>
+          <h1>Enter Your contact Info</h1>
+          {form}
+          {this.props.selectedplace?this.props.selectedplace:""}
+          <button onClick={this.props.onmapshow}>Select location on map</button>
+        </div>
+
+        <Modal show={this.props.Visible}>
+          <GoogleMap></GoogleMap>
+        </Modal>
+      </Aux>
     );
   }
 }
@@ -182,7 +205,9 @@ const mapStatetoProps = state => {
     price: state.BurgerbuilderReducer.price,
     loading: state.orderReducer.loading,
     token: state.AuthReducer.idtoken,
-    userId: state.AuthReducer.userId
+    userId: state.AuthReducer.userId,
+    Visible: state.ContactReducer.Visible,
+    selectedplace: state.ContactReducer.selectedplace
   };
 };
 
@@ -190,7 +215,8 @@ const mapDispatchtoProps = dispatch => {
   return {
     onPurchaseBurger: (orderdata, token) =>
       dispatch(actions.purchaseBurger(orderdata, token)),
-    onPurchaseStart: () => dispatch(actions.purchaseBurgerStart())
+    onPurchaseStart: () => dispatch(actions.purchaseBurgerStart()),
+    onmapshow: () => dispatch(actions.mapShow())
   };
 };
 

@@ -8,6 +8,7 @@
     box-sizing: border-box;
     border: 1ps solid #eee;
     background-color: antiquewhite;
+    display:flexbox;   
     
 }
 .input
@@ -21,4 +22,9 @@
     {
         width: 500px;
     }
+}
+
+.map{
+    height: 200px;
+    width: 200px;
 }

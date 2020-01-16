@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import Order from "../../components/Orders/Order";
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";

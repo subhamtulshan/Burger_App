@@ -10,6 +10,7 @@ import BurgerbuilderReducer from "./Store/Reducer/BurgerBuilder";
 import orderReducer from "./Store/Reducer/Order";
 import thunk from "redux-thunk";
 import AuthReducer from "./Store/Reducer/Auth";
+import ContactReducer from "./Store/Reducer/ContactData"
 import createsagaMiddleware from "redux-saga";
 import { watchAuth, watchBurgerBuilder, watchOrder } from "./Store/Sagas";
 
@@ -17,7 +18,8 @@ const sagaMiddleware = createsagaMiddleware();
 const roorReducer = combineReducers({
   BurgerbuilderReducer,
   orderReducer,
-  AuthReducer
+  AuthReducer,
+  ContactReducer
 });
 
 const composeEnhancers =

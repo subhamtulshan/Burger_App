@@ -1,5 +1,5 @@
 import * as actionType from "./Actiontype";
-import axios from "axios";
+// import axios from "axios";
 
 export const auth = (email, password, isSignup,name,Dob) => {
   // const authdata = {
